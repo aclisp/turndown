@@ -3,6 +3,7 @@ import { isBlock, isVoid, hasVoid, isMeaningfulWhenBlank, hasMeaningfulWhenBlank
 export default function Node (node, options) {
   node.isBlock = isBlock(node)
   node.isCode = node.nodeName === 'CODE' || node.parentNode.isCode
+  node.isPre = node.nodeName === 'PRE' || node.parentNode.isPre
   node.isBlank = isBlank(node)
   node.flankingWhitespace = flankingWhitespace(node, options)
   return node
