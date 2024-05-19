@@ -156,6 +156,7 @@ rules.inlineLink = {
     if (href) href = href.replace(/([()])/g, '\\$1')
     var title = cleanAttribute(node.getAttribute('title'))
     if (title) title = ' "' + title.replace(/"/g, '\\"') + '"'
+    content = content.trim()
     return '[' + content + '](' + href + title + ')'
   }
 }
@@ -176,6 +177,7 @@ rules.referenceLink = {
     var replacement
     var reference
 
+    content = content.trim()
     switch (options.linkReferenceStyle) {
       case 'collapsed':
         replacement = '[' + content + '][]'
