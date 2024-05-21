@@ -151,8 +151,11 @@ rules.inlineLink = {
     )
   },
 
-  replacement: function (content, node) {
+  replacement: function (content, node, options) {
     var href = node.getAttribute('href')
+    if (options.baseUrl) {
+      href = new URL(href, options.baseUrl).href
+    }
     if (href) href = href.replace(/([()])/g, '\\$1')
     var title = cleanAttribute(node.getAttribute('title'))
     if (title) title = ' "' + title.replace(/"/g, '\\"') + '"'
@@ -172,6 +175,9 @@ rules.referenceLink = {
 
   replacement: function (content, node, options) {
     var href = node.getAttribute('href')
+    if (options.baseUrl) {
+      href = new URL(href, options.baseUrl).href
+    }
     var title = cleanAttribute(node.getAttribute('title'))
     if (title) title = ' "' + title + '"'
     var replacement
@@ -251,9 +257,12 @@ rules.code = {
 rules.image = {
   filter: 'img',
 
-  replacement: function (content, node) {
+  replacement: function (content, node, options) {
     var alt = cleanAttribute(node.getAttribute('alt'))
     var src = node.getAttribute('src') || ''
+    if (src && options.baseUrl) {
+      src = new URL(src, options.baseUrl).href
+    }
     var title = cleanAttribute(node.getAttribute('title'))
     var titlePart = title ? ' "' + title + '"' : ''
     return src ? '![' + alt + ']' + '(' + src + titlePart + ')' : ''
